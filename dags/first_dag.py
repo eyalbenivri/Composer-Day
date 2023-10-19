@@ -86,9 +86,10 @@ with models.DAG(
          "output_gcs_bucket": Param("composer-workshop-data-output", type="string")
      },
 ) as dag:
-    def greeting():
+    def greeting(**kwargs):
         import logging
-        logging.info("Goodbye, Batman!!!!")
+        name = kwargs["name"]
+        logging.info(f"Goodbye! {name}")
 
     # Create BigQuery output dataset.
     make_bq_dataset = bash.BashOperator(
@@ -129,8 +130,10 @@ with models.DAG(
     )
 
     this_is_the_end = python_operator.PythonOperator(
-        task_id="goodbye",
+        task_id="goodbye", 
+        provide_context=True,
         python_callable=greeting,
+        op_kwargs={'name': '{{ var.value.greeting }}'},
     )
 
 
