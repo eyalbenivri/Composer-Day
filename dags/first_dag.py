@@ -31,7 +31,7 @@ from airflow.utils import trigger_rule
 target_dataset_name = "greenhat_summary"
 target_table_name = "readings_by_street"
 location = "us-central1"
-project_id = "composer-workshop"
+project_id = "qwiklabs-gcp-00-f71c1a9b29a4"
 gcs_bucket = "{{ params.output_gcs_bucket }}"
 csv_output_file = f"gs://{gcs_bucket}/street_readings.csv"
 avro_output_file = f"gs://{gcs_bucket}/street_readings.avro"
@@ -51,10 +51,10 @@ BQ_AGG_STREETS_QUERY = """
             AVG(readings.co_ppm) AS avg_co_ppm,
             MIN(readings.timestamp) AS min_timestamp,
             MAX(readings.timestamp) AS max_timestamp,
-        FROM `composer-workshop.greenhat.readings` AS readings
-        LEFT JOIN `composer-workshop.greenhat.space_and_time_continuum` AS space_and_time
+        FROM `qwiklabs-gcp-00-f71c1a9b29a4.greenhat.readings` AS readings
+        LEFT JOIN `qwiklabs-gcp-00-f71c1a9b29a4.greenhat.space_and_time_continuum` AS space_and_time
             ON readings.timestamp = space_and_time.timestamp
-        LEFT JOIN `composer-workshop.greenhat.road_config` AS roads
+        LEFT JOIN `qwiklabs-gcp-00-f71c1a9b29a4.greenhat.road_config` AS roads
             ON space_and_time.road_id = roads.road_id
         WHERE readings.timestamp >= CAST('{{ params.min_query_date }}' AS TIMESTAMP)
             AND readings.timestamp < CAST('{{ params.max_query_date }}' AS TIMESTAMP)
@@ -83,8 +83,8 @@ with models.DAG(
          "min_query_date": Param("2022-01-01", type="string"),
          "bq_dataset_name": Param("greenhat_summary", type="string"),
          "business_datetime": Param(default_business_datetime, type="string"),
-         "gcp_project": Param("composer-workshop", type="string"),
-         "output_gcs_bucket": Param("composer-workshop-data-output", type="string")
+         "gcp_project": Param("qwiklabs-gcp-00-f71c1a9b29a4", type="string"),
+         "output_gcs_bucket": Param("qwiklabs-gcp-00-f71c1a9b29a4-data-output", type="string")
      },
 ) as dag:
     def greeting(**kwargs):
