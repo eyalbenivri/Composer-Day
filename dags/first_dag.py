@@ -24,6 +24,7 @@ from airflow.models.param import Param
 from airflow.operators import bash, email, python_operator
 from airflow.providers.google.cloud.operators import bigquery
 from airflow.providers.google.cloud.transfers import bigquery_to_gcs
+from airflow.models.variable import Variable
 from airflow.utils import trigger_rule
 
 
@@ -89,6 +90,7 @@ with models.DAG(
     def greeting(**kwargs):
         import logging
         greeting = kwargs["greeting"]
+        another_greeting = Variable.get("greeting")
         logging.info(f"Goodbye {greeting}!!!")
 
     # Create BigQuery output dataset.
