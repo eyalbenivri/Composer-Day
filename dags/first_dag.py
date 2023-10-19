@@ -88,7 +88,7 @@ with models.DAG(
 ) as dag:
     def greeting():
         import logging
-        logging.info("Goodbye!")
+        logging.info("Goodbye, Batman!")
 
     # Create BigQuery output dataset.
     make_bq_dataset = bash.BashOperator(
