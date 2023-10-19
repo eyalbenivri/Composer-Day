@@ -26,6 +26,7 @@ from airflow.providers.google.cloud.operators import bigquery
 from airflow.providers.google.cloud.transfers import bigquery_to_gcs
 from airflow.models.variable import Variable
 from airflow.utils import trigger_rule
+from plugins import RGCustomOperator
 
 
 target_dataset_name = "greenhat_summary"
@@ -87,12 +88,6 @@ with models.DAG(
          "output_gcs_bucket": Param("qwiklabs-gcp-00-f71c1a9b29a4-data-output", type="string")
      },
 ) as dag:
-    def greeting(**kwargs):
-        import logging
-        greeting = kwargs["greeting"]
-        another_greeting = Variable.get("greeting")
-        logging.info(f"Goodbye {greeting}!!!")
-
     # Create BigQuery output dataset.
     make_bq_dataset = bash.BashOperator(
         task_id="make_bq_dataset",
@@ -131,11 +126,10 @@ with models.DAG(
         export_format="AVRO",
     )
 
-    this_is_the_end = python_operator.PythonOperator(
-        task_id="goodbye", 
-        provide_context=True,
-        python_callable=greeting,
-        op_kwargs={'greeting': '{{ var.value.greeting }}'},
+    this_is_the_end = RGCustomOperator(
+        task_id="this_is_the_end",
+        connection="{{ var.value.greeting }}",
+        param="hard-coded param",        
     )
 
 
