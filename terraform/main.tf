@@ -53,9 +53,23 @@ resource "google_service_account_iam_member" "custom_service_account" {
 }
 
 resource "google_composer_environment" "example_environment" {
-  // ---- Challenge ---- // 
-  // Create a cloud composer 2 instance following the documenation below: 
-  // https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/composer_environment#with-gke-and-compute-resource-dependencies
+  provider = google
+  name     = "terraform-composer-environment"
+
+  config {
+    software_config {
+      image_version = "composer-2.4.5-airflow-2.5.3"
+    }
+
+    environment_size = "ENVIRONMENT_SIZE_SMALL"
+
+    node_config {
+      service_account = google_service_account.custom_service_account.email
+      network         = google_compute_network.test.id
+      subnetwork      = google_compute_subnetwork.test.id
+    }
+
+  }
 }
 
 resource "google_compute_network" "test" {

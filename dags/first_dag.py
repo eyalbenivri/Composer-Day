@@ -31,7 +31,7 @@ target_dataset_name = "greenhat_summary"
 target_table_name = "readings_by_street"
 location = "us-central1"
 project_id = "composer-workshop"
-gcs_bucket = "{{params.output_gcs_bucket}}"
+gcs_bucket = "{{ params.output_gcs_bucket }}"
 csv_output_file = f"gs://{gcs_bucket}/street_readings.csv"
 avro_output_file = f"gs://{gcs_bucket}/street_readings.avro"
 
