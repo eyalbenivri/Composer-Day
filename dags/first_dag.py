@@ -88,8 +88,8 @@ with models.DAG(
 ) as dag:
     def greeting(**kwargs):
         import logging
-        name = kwargs["name"]
-        logging.info(f"Goodbye! {name}")
+        greeting = kwargs["greeting"]
+        logging.info(f"Goodbye {greeting}!!!")
 
     # Create BigQuery output dataset.
     make_bq_dataset = bash.BashOperator(
@@ -133,7 +133,7 @@ with models.DAG(
         task_id="goodbye", 
         provide_context=True,
         python_callable=greeting,
-        op_kwargs={'name': '{{ var.value.greeting }}'},
+        op_kwargs={'greeting': '{{ var.value.greeting }}'},
     )
 
 
