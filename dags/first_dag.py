@@ -26,7 +26,7 @@ from airflow.providers.google.cloud.operators import bigquery
 from airflow.providers.google.cloud.transfers import bigquery_to_gcs
 from airflow.models.variable import Variable
 from airflow.utils import trigger_rule
-from plugins import RGCustomOperator
+from RGCustomOperator import RGCustomOperator
 
 
 target_dataset_name = "greenhat_summary"
@@ -128,7 +128,7 @@ with models.DAG(
 
     this_is_the_end = RGCustomOperator(
         task_id="this_is_the_end",
-        connection="{{ var.value.greeting }}",
+        connection="{{ var.value.greeting }}--" + Variable.get("greeting"),
         param="hard-coded param",        
     )
 

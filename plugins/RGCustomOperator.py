@@ -24,4 +24,4 @@ class RGCustomOperator(BaseOperator):
         Execution function of RGCustomOperator
         """
         #Write logs if needed
-        self.log.info(f"Simulate some connection to a random off-cloud Mongo Cluster; using connection {self.connection} and a random param of {self.param}")
+        self.log.info(f"Batman Says: Simulate some connection to a random off-cloud Mongo Cluster; using connection {self.connection} and a random param of {self.param}")
