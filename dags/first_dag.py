@@ -32,7 +32,7 @@ from RGCustomOperator import RGCustomOperator
 target_dataset_name = "greenhat_summary"
 target_table_name = "readings_by_street"
 location = "us-central1"
-project_id = "qwiklabs-gcp-00-f71c1a9b29a4"
+project_id = "{{ var.value.GCP_PROJECT }}"
 gcs_bucket = "{{ params.output_gcs_bucket }}"
 csv_output_file = f"gs://{gcs_bucket}/street_readings.csv"
 avro_output_file = f"gs://{gcs_bucket}/street_readings.avro"
@@ -52,10 +52,10 @@ BQ_AGG_STREETS_QUERY = """
             AVG(readings.co_ppm) AS avg_co_ppm,
             MIN(readings.timestamp) AS min_timestamp,
             MAX(readings.timestamp) AS max_timestamp,
-        FROM `qwiklabs-gcp-00-f71c1a9b29a4.greenhat.readings` AS readings
-        LEFT JOIN `qwiklabs-gcp-00-f71c1a9b29a4.greenhat.space_and_time_continuum` AS space_and_time
+        FROM `greenhat.readings` AS readings
+        LEFT JOIN `greenhat.space_and_time_continuum` AS space_and_time
             ON readings.timestamp = space_and_time.timestamp
-        LEFT JOIN `qwiklabs-gcp-00-f71c1a9b29a4.greenhat.road_config` AS roads
+        LEFT JOIN `greenhat.road_config` AS roads
             ON space_and_time.road_id = roads.road_id
         WHERE readings.timestamp >= CAST('{{ params.min_query_date }}' AS TIMESTAMP)
             AND readings.timestamp < CAST('{{ params.max_query_date }}' AS TIMESTAMP)
