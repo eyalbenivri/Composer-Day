@@ -84,8 +84,8 @@ with models.DAG(
          "min_query_date": Param("2022-01-01", type="string"),
          "bq_dataset_name": Param("greenhat_summary", type="string"),
          "business_datetime": Param(default_business_datetime, type="string"),
-         "gcp_project": Param("qwiklabs-gcp-00-f71c1a9b29a4", type="string"),
-         "output_gcs_bucket": Param("qwiklabs-gcp-00-f71c1a9b29a4-data-output", type="string")
+         "gcp_project": Param(Variable.get("GCP_PROJECT"), type="string"),
+         "output_gcs_bucket": Param(Variable.get("GCP_PROJECT")+"-output", type="string")
      },
 ) as dag:
     # Create BigQuery output dataset.
