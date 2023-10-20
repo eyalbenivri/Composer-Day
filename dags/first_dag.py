@@ -21,11 +21,10 @@ https://airflow.apache.org/docs/apache-airflow/stable/concepts/variables.html
 import datetime
 from airflow import models
 from airflow.models.param import Param
-from airflow.operators import bash, email, python_operator
+from airflow.operators import bash
 from airflow.providers.google.cloud.operators import bigquery
 from airflow.providers.google.cloud.transfers import bigquery_to_gcs
 from airflow.models.variable import Variable
-from airflow.utils import trigger_rule
 from RGCustomOperator import RGCustomOperator
 
 
